@@ -1,4 +1,4 @@
-# sqflite
+# Voice Note App
 
 A new Flutter project.
 

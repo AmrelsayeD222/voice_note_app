@@ -11,6 +11,7 @@ class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._();
 
   factory DatabaseHelper() => _instance;
+
   static Database? _database;
 
   Future<Database> get database async {
@@ -38,19 +39,19 @@ class DatabaseHelper {
     );
   }
 
-  Future<Datamodel> insert(Datamodel datamodel) async {
+  Future<Datamodel> addTask(Datamodel datamodel) async {
     final db = await database;
-    datamodel.id = await db.insert(_tableName, datamodel.toMap());
-    return datamodel;
+    final id = await db.insert(_tableName, datamodel.toMap());
+    return datamodel.copyWith(id: id);
   }
 
-  Future<List<Datamodel>> getTasks() async {
+  Future<List<Datamodel>> fetchTasks() async {
     final db = await database;
     final maps = await db.query(_tableName);
     return maps.map((map) => Datamodel.fromMap(map)).toList();
   }
 
-  Future<int> update(Datamodel datamodel) async {
+  Future<int> editTask(Datamodel datamodel) async {
     final db = await database;
     return await db.update(
       _tableName,
@@ -60,7 +61,7 @@ class DatabaseHelper {
     );
   }
 
-  Future<int> delete(int id) async {
+  Future<int> deleteTask(int id) async {
     final db = await database;
     return await db.delete(
       _tableName,
