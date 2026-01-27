@@ -7,6 +7,7 @@ import 'package:sqflite_app/feature/data/manager/edit_task/edit_task_cubit.dart'
 import 'package:sqflite_app/feature/data/manager/fatch_data/fetch_data_cubit.dart';
 
 import 'feature/ui/views/home_view.dart';
+import 'core/theme/app_theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,63 +39,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Voice Note App',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.indigo,
-            primary: Colors.indigo,
-            secondary: Colors.indigoAccent,
-          ),
-          scaffoldBackgroundColor: const Color(0xFFF8F9FA),
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            centerTitle: true,
-            titleTextStyle: TextStyle(
-              color: Colors.black87,
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
-            iconTheme: IconThemeData(color: Colors.black87),
-          ),
-          cardTheme: CardThemeData(
-            elevation: 2,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            color: Colors.white,
-          ),
-          floatingActionButtonTheme: FloatingActionButtonThemeData(
-            backgroundColor: Colors.indigo,
-            foregroundColor: Colors.white,
-            elevation: 4,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-          ),
-          dialogTheme: DialogThemeData(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
-            ),
-            elevation: 8,
-          ),
-          inputDecorationTheme: InputDecorationTheme(
-            filled: true,
-            fillColor: Colors.grey[100],
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none,
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Colors.indigo, width: 2),
-            ),
-          ),
-        ),
+        theme: AppTheme.lightTheme,
         home: const HomeView(),
       ),
     );
