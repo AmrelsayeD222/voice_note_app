@@ -3,14 +3,14 @@ import 'package:sqflite/sqflite.dart';
 
 import '../../feature/data/model/datamodel.dart';
 
-class DatabaseHelper {
+class DataBaseService {
   static const String _tableName = 'todos';
   static const String _dbName = 'todo.db';
 
-  DatabaseHelper._();
-  static final DatabaseHelper _instance = DatabaseHelper._();
+  DataBaseService._();
+  static final DataBaseService _instance = DataBaseService._();
 
-  factory DatabaseHelper() => _instance;
+  factory DataBaseService() => _instance;
 
   static Database? _database;
 

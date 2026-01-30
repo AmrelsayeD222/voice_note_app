@@ -1,12 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:voice_note_app/core/helper/database.dart';
+import 'package:voice_note_app/core/helper/data_base_service.dart';
 import 'package:voice_note_app/feature/data/model/datamodel.dart';
 
 part 'delete_task_state.dart';
 
 class DeleteTaskCubit extends Cubit<DeleteTaskState> {
-  DatabaseHelper databaseHelper;
+  final DataBaseService databaseHelper;
   DeleteTaskCubit(this.databaseHelper) : super(DeleteTaskInitial());
 
   void deleteTask(Datamodel datamodel) async {
