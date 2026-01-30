@@ -32,7 +32,8 @@ class DatabaseHelper {
           CREATE TABLE $_tableName(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT,
-            description TEXT
+            description TEXT,
+            audioPath TEXT
           )
         ''');
       },
@@ -47,7 +48,7 @@ class DatabaseHelper {
 
   Future<List<Datamodel>> fetchTasks() async {
     final db = await database;
-    final maps = await db.query(_tableName);
+    final maps = await db.query(_tableName, orderBy: 'id DESC');
     return maps.map((map) => Datamodel.fromMap(map)).toList();
   }
 

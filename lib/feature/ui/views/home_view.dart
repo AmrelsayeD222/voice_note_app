@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sqflite_app/feature/ui/widgets/add_note_fab.dart';
+import 'package:voice_note_app/feature/ui/widgets/add_note_fab.dart';
+import 'package:voice_note_app/feature/ui/widgets/add_voice_fab.dart';
 
-import 'package:sqflite_app/feature/ui/widgets/home_app_bar.dart';
-import 'package:sqflite_app/feature/ui/widgets/home_body.dart';
-import 'package:sqflite_app/feature/ui/widgets/home_listener.dart';
+import 'package:voice_note_app/feature/ui/widgets/home_app_bar.dart';
+import 'package:voice_note_app/feature/ui/widgets/home_body.dart';
+import 'package:voice_note_app/feature/ui/widgets/home_listener.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -14,7 +15,14 @@ class HomeView extends StatelessWidget {
       child: Scaffold(
         appBar: HomeAppBar(),
         body: HomeBody(),
-        floatingActionButton: AddNoteFAB(),
+        floatingActionButton: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AddVoiceFAB(),
+            SizedBox(height: 16),
+            AddNoteFAB(),
+          ],
+        ),
       ),
     );
   }

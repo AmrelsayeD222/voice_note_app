@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:sqflite_app/core/helper/database.dart';
-import 'package:sqflite_app/feature/data/model/datamodel.dart';
+import 'package:voice_note_app/core/helper/database.dart';
+import 'package:voice_note_app/feature/data/model/datamodel.dart';
 
 part 'fetch_data_state.dart';
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sqflite_app/feature/data/manager/fatch_data/fetch_data_cubit.dart';
-import 'package:sqflite_app/feature/ui/widgets/empty_tasks_view.dart';
-import 'package:sqflite_app/feature/ui/widgets/home_task_card.dart';
+import 'package:voice_note_app/feature/data/manager/fatch_data/fetch_data_cubit.dart';
+import 'package:voice_note_app/feature/ui/widgets/empty_tasks_view.dart';
+import 'package:voice_note_app/feature/ui/widgets/home_task_card.dart';
 
 class HomeBody extends StatelessWidget {
   const HomeBody({super.key});

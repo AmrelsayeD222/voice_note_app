@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sqflite_app/feature/data/model/datamodel.dart';
-import 'package:sqflite_app/feature/data/manager/edit_task/edit_task_cubit.dart';
+import 'package:voice_note_app/feature/data/model/datamodel.dart';
+import 'package:voice_note_app/feature/data/manager/edit_task/edit_task_cubit.dart';
 
 class EditTaskDialog extends StatelessWidget {
   final Datamodel datamodel;

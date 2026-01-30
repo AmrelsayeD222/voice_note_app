@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sqflite_app/feature/ui/widgets/add_task_dialog.dart';
+import 'package:voice_note_app/feature/ui/widgets/add_task_dialog.dart';
 
 class AddNoteFAB extends StatelessWidget {
   const AddNoteFAB({super.key});
