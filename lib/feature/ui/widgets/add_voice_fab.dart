@@ -7,6 +7,7 @@ class AddVoiceFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
+      heroTag: 'add_voice_fab',
       onPressed: () {
         showModalBottomSheet(
           context: context,

@@ -14,21 +14,22 @@ class NotificationCubit extends Cubit<NotificationState> {
   NotificationCubit(this.databaseHelper) : super(NotificationInitial());
 
   Future<void> fetchPendingNotifications() async {
-    emit(NotificationLoading());
+    emit(NotificationLoading(state.notifications));
     try {
       final pending = await _notificationService.getPendingNotifications();
-      emit(NotificationLoaded(pending));
+      emit(NotificationFetchedSuccess(pending));
     } catch (e) {
-      emit(NotificationError(e.toString()));
+      emit(NotificationError(e.toString(), state.notifications));
     }
   }
 
   Future<void> cancelAllNotifications() async {
     try {
       await _notificationService.cancelAll();
-      emit(const NotificationLoaded([]));
+      final pending = await _notificationService.getPendingNotifications();
+      emit(NotificationCancelledSuccess(pending));
     } catch (e) {
-      emit(NotificationError(e.toString()));
+      emit(NotificationError(e.toString(), state.notifications));
     }
   }
 
@@ -41,7 +42,8 @@ class NotificationCubit extends Cubit<NotificationState> {
         }
       } catch (e) {
         debugPrint('Error scheduling notification: $e');
-        emit(NotificationError('Error scheduling notification: $e'));
+        emit(NotificationError(
+            'Error scheduling notification: $e', state.notifications));
       }
     } else {
       await cancelNotification(task.id!);
@@ -49,22 +51,25 @@ class NotificationCubit extends Cubit<NotificationState> {
   }
 
   Future<void> makeNotification(Datamodel datamodel) async {
-    emit(NotificationLoading());
+    emit(NotificationLoading(state.notifications));
     try {
       await databaseHelper.editTask(datamodel);
       await manageTaskNotification(datamodel);
 
-      emit(const NotificationLoaded([]));
+      final pending = await _notificationService.getPendingNotifications();
+      emit(NotificationScheduledSuccess(pending));
     } catch (e) {
-      emit(NotificationError(e.toString()));
+      emit(NotificationError(e.toString(), state.notifications));
     }
   }
 
   Future<void> cancelNotification(int id) async {
     try {
       await _notificationService.cancel(id);
+      final pending = await _notificationService.getPendingNotifications();
+      emit(NotificationFetchedSuccess(pending));
     } catch (e) {
-      emit(NotificationError(e.toString()));
+      emit(NotificationError(e.toString(), state.notifications));
     }
   }
 }

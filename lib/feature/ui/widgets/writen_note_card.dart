@@ -6,6 +6,7 @@ import 'package:voice_note_app/feature/data/model/datamodel.dart';
 import 'package:voice_note_app/feature/ui/widgets/action_icon_bottom.dart';
 import 'package:voice_note_app/feature/ui/widgets/delete_task_dialog.dart';
 import 'package:voice_note_app/feature/ui/widgets/etit_task_dialog.dart';
+import 'package:voice_note_app/feature/ui/views/details_view.dart';
 
 class WritenNoteCard extends StatelessWidget {
   const WritenNoteCard({
@@ -29,30 +30,41 @@ class WritenNoteCard extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    task.title,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailsView(task: task),
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  if (discrption)
+                  );
+                },
+                behavior: HitTestBehavior.opaque,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     Text(
-                      task.description,
-                      style: TextStyle(
-                        fontSize: 14,
-                        height: 1.5,
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w400,
+                      task.title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
                       ),
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
                     ),
-                ],
+                    const SizedBox(height: 8),
+                    if (discrption)
+                      Text(
+                        task.description,
+                        style: TextStyle(
+                          fontSize: 14,
+                          height: 1.5,
+                          color: Colors.grey[700],
+                          fontWeight: FontWeight.w400,
+                        ),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                  ],
+                ),
               ),
             ),
             Row(

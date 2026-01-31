@@ -7,9 +7,14 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<NotificationCubit, NotificationState>(
+    return BlocConsumer<NotificationCubit, NotificationState>(
       listener: (context, state) {
-        if (state is NotificationLoaded) {
+        if (state is NotificationScheduledSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text('Notification scheduled successfully')),
+          );
+        } else if (state is NotificationFetchedSuccess) {
           if (state.notifications.isNotEmpty) {
             showDialog(
               context: context,
@@ -37,32 +42,63 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
               const SnackBar(content: Text('No pending notifications')),
             );
           }
+        } else if (state is NotificationCancelledSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('All notifications canceled')),
+          );
         } else if (state is NotificationError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.message)),
           );
         }
       },
-      child: AppBar(
-        title: const Text('Voice Notes'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              context.read<NotificationCubit>().fetchPendingNotifications();
-            },
-            icon: const Icon(Icons.notifications_outlined),
-          ),
-          IconButton(
-            onPressed: () {
-              context.read<NotificationCubit>().cancelAllNotifications();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('All notifications canceled')),
-              );
-            },
-            icon: const Icon(Icons.notifications_off_outlined),
-          ),
-        ],
-      ),
+      builder: (context, state) {
+        return AppBar(
+          title: const Text('Voice Notes'),
+          actions: [
+            Stack(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    context
+                        .read<NotificationCubit>()
+                        .fetchPendingNotifications();
+                  },
+                  icon: const Icon(Icons.notifications_outlined),
+                ),
+                if (state.notifications.isNotEmpty)
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: Container(
+                      padding: const EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 16,
+                        minHeight: 16,
+                      ),
+                      child: Text(
+                        state.notifications.length.toString(),
+                        textAlign: TextAlign.center,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 10),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+            IconButton(
+              onPressed: () {
+                context.read<NotificationCubit>().cancelAllNotifications();
+              },
+              icon: const Icon(Icons.notifications_off_outlined),
+            ),
+          ],
+        );
+      },
     );
   }
 

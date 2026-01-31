@@ -7,6 +7,7 @@ class AddNoteFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
+      heroTag: 'add_note_fab',
       onPressed: () {
         showDialog(
           context: context,

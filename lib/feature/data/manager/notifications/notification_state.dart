@@ -1,28 +1,35 @@
 part of 'notification_cubit.dart';
 
 sealed class NotificationState extends Equatable {
-  const NotificationState();
-
-  @override
-  List<Object> get props => [];
-}
-
-final class NotificationInitial extends NotificationState {}
-
-final class NotificationLoading extends NotificationState {}
-
-final class NotificationLoaded extends NotificationState {
   final List<String> notifications;
-  const NotificationLoaded(this.notifications);
+  const NotificationState([this.notifications = const []]);
 
   @override
   List<Object> get props => [notifications];
 }
 
+final class NotificationInitial extends NotificationState {}
+
+final class NotificationLoading extends NotificationState {
+  const NotificationLoading([super.notifications]);
+}
+
+final class NotificationFetchedSuccess extends NotificationState {
+  const NotificationFetchedSuccess(super.notifications);
+}
+
+final class NotificationScheduledSuccess extends NotificationState {
+  const NotificationScheduledSuccess([super.notifications]);
+}
+
+final class NotificationCancelledSuccess extends NotificationState {
+  const NotificationCancelledSuccess([super.notifications]);
+}
+
 final class NotificationError extends NotificationState {
   final String message;
-  const NotificationError(this.message);
+  const NotificationError(this.message, [super.notifications = const []]);
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [message, notifications];
 }

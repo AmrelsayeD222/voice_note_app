@@ -33,7 +33,8 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => NotificationCubit(DatabaseService()),
+          create: (context) =>
+              NotificationCubit(DatabaseService())..fetchPendingNotifications(),
         ),
         BlocProvider(
           create: (context) => FetchDataCubit(
