@@ -1,16 +1,17 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
+import 'package:voice_note_app/core/helper/data_base_service.dart';
 import 'package:voice_note_app/core/helper/notification_service.dart';
 import 'package:voice_note_app/feature/data/model/datamodel.dart';
 
 part 'notification_state.dart';
 
 class NotificationCubit extends Cubit<NotificationState> {
-  // Can be injected, but for simplicity we use the singleton instance or pass it
+  final DatabaseService databaseHelper;
   final NotificationService _notificationService = NotificationService();
 
-  NotificationCubit() : super(NotificationInitial());
+  NotificationCubit(this.databaseHelper) : super(NotificationInitial());
 
   Future<void> fetchPendingNotifications() async {
     emit(NotificationLoading());
@@ -25,7 +26,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   Future<void> cancelAllNotifications() async {
     try {
       await _notificationService.cancelAll();
-      emit(const NotificationLoaded([])); // Clear list after cancellation
+      emit(const NotificationLoaded([]));
     } catch (e) {
       emit(NotificationError(e.toString()));
     }
@@ -44,6 +45,18 @@ class NotificationCubit extends Cubit<NotificationState> {
       }
     } else {
       await cancelNotification(task.id!);
+    }
+  }
+
+  Future<void> makeNotification(Datamodel datamodel) async {
+    emit(NotificationLoading());
+    try {
+      await databaseHelper.editTask(datamodel);
+      await manageTaskNotification(datamodel);
+
+      emit(const NotificationLoaded([]));
+    } catch (e) {
+      emit(NotificationError(e.toString()));
     }
   }
 

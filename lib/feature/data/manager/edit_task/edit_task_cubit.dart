@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:voice_note_app/core/helper/data_base_service.dart';
-import 'package:voice_note_app/feature/data/manager/notifications/notification_cubit.dart';
 import 'package:voice_note_app/feature/data/model/datamodel.dart';
 
 part 'edit_task_state.dart';
@@ -13,9 +12,7 @@ class EditTaskCubit extends Cubit<EditTaskState> {
   final formKey = GlobalKey<FormState>();
 
   final DatabaseService databaseHelper;
-  final NotificationCubit notificationCubit;
-  EditTaskCubit(this.databaseHelper, this.notificationCubit)
-      : super(EditTaskInitial());
+  EditTaskCubit(this.databaseHelper) : super(EditTaskInitial());
 
   void setInitialValues(Datamodel datamodel) {
     titleController.text = datamodel.title;
@@ -26,7 +23,6 @@ class EditTaskCubit extends Cubit<EditTaskState> {
     emit(EditTaskInitial());
     try {
       await databaseHelper.editTask(datamodel);
-      await notificationCubit.manageTaskNotification(datamodel);
 
       emit(EditTaskSuccess());
     } catch (e) {

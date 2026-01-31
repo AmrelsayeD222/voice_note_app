@@ -19,6 +19,7 @@ class DeleteTaskCubit extends Cubit<DeleteTaskState> {
         datamodel.id!,
       );
       await notificationCubit.cancelNotification(datamodel.id!);
+
       emit(DeleteTaskSuccess());
     } catch (e) {
       emit(DeleteTaskFailure(message: e.toString()));

@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => NotificationCubit(),
+          create: (context) => NotificationCubit(DatabaseService()),
         ),
         BlocProvider(
           create: (context) => FetchDataCubit(
@@ -44,10 +44,7 @@ class MyApp extends StatelessWidget {
           create: (context) => AddTaskCubit(DatabaseService()),
         ),
         BlocProvider(
-          create: (context) => EditTaskCubit(
-            DatabaseService(),
-            context.read<NotificationCubit>(),
-          ),
+          create: (context) => EditTaskCubit(DatabaseService()),
         ),
         BlocProvider(
           create: (context) => DeleteTaskCubit(

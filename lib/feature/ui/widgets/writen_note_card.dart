@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:voice_note_app/feature/data/manager/edit_task/edit_task_cubit.dart';
+import 'package:voice_note_app/feature/data/manager/notifications/notification_cubit.dart';
 import 'package:voice_note_app/feature/data/model/datamodel.dart';
 import 'package:voice_note_app/feature/ui/widgets/action_icon_bottom.dart';
 import 'package:voice_note_app/feature/ui/widgets/delete_task_dialog.dart';
@@ -102,7 +103,7 @@ class WritenNoteCard extends StatelessWidget {
                           time.hour,
                           time.minute,
                         );
-                        context.read<EditTaskCubit>().editTask(
+                        context.read<NotificationCubit>().makeNotification(
                               task.copyWith(
                                 reminder: scheduledDate.toIso8601String(),
                               ),
