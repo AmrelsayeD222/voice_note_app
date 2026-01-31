@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:voice_note_app/feature/data/manager/edit_task/edit_task_cubit.dart';
 
 import 'package:voice_note_app/feature/data/model/datamodel.dart';
 import 'package:voice_note_app/feature/ui/widgets/delete_task_dialog.dart';
@@ -46,6 +48,37 @@ class VoiceNoteCard extends StatelessWidget {
                     context: context,
                     builder: (context) => DeleteTaskDialog(datamodel: task),
                   );
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.alarm, color: Colors.orange, size: 20),
+                onPressed: () async {
+                  final date = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime.now().add(const Duration(days: 365)),
+                  );
+                  if (date != null && context.mounted) {
+                    final time = await showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay.now(),
+                    );
+                    if (time != null && context.mounted) {
+                      final scheduledDate = DateTime(
+                        date.year,
+                        date.month,
+                        date.day,
+                        time.hour,
+                        time.minute,
+                      );
+                      context.read<EditTaskCubit>().editTask(
+                            task.copyWith(
+                              reminder: scheduledDate.toIso8601String(),
+                            ),
+                          );
+                    }
+                  }
                 },
               ),
             ],

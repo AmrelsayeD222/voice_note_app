@@ -7,7 +7,7 @@ import 'package:voice_note_app/feature/data/model/datamodel.dart';
 part 'fetch_data_state.dart';
 
 class FetchDataCubit extends Cubit<FetchDataState> {
-  final DataBaseService databaseHelper;
+  final DatabaseService databaseHelper;
   FetchDataCubit(this.databaseHelper) : super(FetchDataInitial());
 
   Future<void> fetchData() async {

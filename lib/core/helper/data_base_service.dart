@@ -3,14 +3,14 @@ import 'package:sqflite/sqflite.dart';
 
 import '../../feature/data/model/datamodel.dart';
 
-class DataBaseService {
+class DatabaseService {
   static const String _tableName = 'todos';
   static const String _dbName = 'todo.db';
 
-  DataBaseService._();
-  static final DataBaseService _instance = DataBaseService._();
+  DatabaseService._();
+  static final DatabaseService _instance = DatabaseService._();
 
-  factory DataBaseService() => _instance;
+  factory DatabaseService() => _instance;
 
   static Database? _database;
 
@@ -33,7 +33,8 @@ class DataBaseService {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT,
             description TEXT,
-            audioPath TEXT
+            audioPath TEXT,
+            reminder TEXT
           )
         ''');
       },

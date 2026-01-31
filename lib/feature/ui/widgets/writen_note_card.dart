@@ -79,6 +79,38 @@ class WritenNoteCard extends StatelessWidget {
                     );
                   },
                 ),
+                ActionIconButton(
+                  icon: Icons.alarm,
+                  color: Colors.orange,
+                  onPressed: () async {
+                    final date = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime.now().add(const Duration(days: 365)),
+                    );
+                    if (date != null && context.mounted) {
+                      final time = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      );
+                      if (time != null && context.mounted) {
+                        final scheduledDate = DateTime(
+                          date.year,
+                          date.month,
+                          date.day,
+                          time.hour,
+                          time.minute,
+                        );
+                        context.read<EditTaskCubit>().editTask(
+                              task.copyWith(
+                                reminder: scheduledDate.toIso8601String(),
+                              ),
+                            );
+                      }
+                    }
+                  },
+                ),
               ],
             ),
           ],

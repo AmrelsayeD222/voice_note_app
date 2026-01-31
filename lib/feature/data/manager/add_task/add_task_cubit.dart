@@ -11,7 +11,7 @@ class AddTaskCubit extends Cubit<AddTaskState> {
   TextEditingController descriptionController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-  final DataBaseService databaseHelper;
+  final DatabaseService databaseHelper;
   AddTaskCubit(this.databaseHelper) : super(AddTaskInitial());
 
   Future<void> addTask(Datamodel datamodel) async {
