@@ -11,13 +11,23 @@ class NotificationCubit extends Cubit<NotificationState> {
   final DatabaseService databaseHelper;
   final NotificationService _notificationService = NotificationService();
 
-  NotificationCubit(this.databaseHelper) : super(NotificationInitial());
+  NotificationCubit(this.databaseHelper) : super(const NotificationInitial());
 
   Future<void> fetchPendingNotifications() async {
     emit(NotificationLoading(state.notifications));
     try {
       final pending = await _notificationService.getPendingNotifications();
       emit(NotificationFetchedSuccess(pending));
+    } catch (e) {
+      emit(NotificationError(e.toString(), state.notifications));
+    }
+  }
+
+  Future<void> viewPendingNotifications() async {
+    emit(NotificationLoading(state.notifications));
+    try {
+      final pending = await _notificationService.getPendingNotifications();
+      emit(NotificationShowDialogSuccess(pending));
     } catch (e) {
       emit(NotificationError(e.toString(), state.notifications));
     }
@@ -38,7 +48,12 @@ class NotificationCubit extends Cubit<NotificationState> {
       try {
         final scheduledDate = DateTime.parse(task.reminder!);
         if (scheduledDate.isAfter(DateTime.now())) {
-          await _notificationService.scheduleAtDateTime(scheduledDate);
+          List<String> words = task.title.trim().split(RegExp(r'\s+'));
+          String displayTitle =
+              words.length > 2 ? '${words.take(2).join(' ')}...' : task.title;
+
+          await _notificationService.scheduleAtDateTime(
+              scheduledDate, task.id!, displayTitle);
         }
       } catch (e) {
         debugPrint('Error scheduling notification: $e');

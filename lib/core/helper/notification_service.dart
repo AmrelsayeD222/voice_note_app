@@ -99,7 +99,8 @@ class NotificationService {
   }
 
   // ✅ إشعار بتاريخ ووقت محددين (محسّن)
-  Future<void> scheduleAtDateTime(DateTime scheduledDateTime) async {
+  Future<void> scheduleAtDateTime(
+      DateTime scheduledDateTime, int id, String title) async {
     const androidDetails = AndroidNotificationDetails(
       'custom_date_channel',
       'Custom Date Notifications',
@@ -112,14 +113,13 @@ class NotificationService {
     const details =
         NotificationDetails(android: androidDetails, iOS: iosDetails);
 
-    // استخدام timestamp كـ ID لتجنب التعارض
-    final notificationId = scheduledDateTime.millisecondsSinceEpoch ~/ 1000;
+    // استخدام timestamp كـ ID
 
     await _plugin.zonedSchedule(
+      id: id,
       notificationDetails: details,
       scheduledDate: tz.TZDateTime.from(scheduledDateTime, tz.local),
-      id: notificationId, // ✅ ID فريد بناءً على الوقت
-      title: '📅 إشعار مجدول',
+      title: '📅  $title',
       body:
           'تم جدولة هذا الإشعار ليوم ${scheduledDateTime.day}/${scheduledDateTime.month}',
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,

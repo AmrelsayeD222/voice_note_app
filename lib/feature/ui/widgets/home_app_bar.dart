@@ -14,7 +14,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
             const SnackBar(
                 content: Text('Notification scheduled successfully')),
           );
-        } else if (state is NotificationFetchedSuccess) {
+        } else if (state is NotificationShowDialogSuccess) {
           if (state.notifications.isNotEmpty) {
             showDialog(
               context: context,
@@ -62,7 +62,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                   onPressed: () {
                     context
                         .read<NotificationCubit>()
-                        .fetchPendingNotifications();
+                        .viewPendingNotifications();
                   },
                   icon: const Icon(Icons.notifications_outlined),
                 ),

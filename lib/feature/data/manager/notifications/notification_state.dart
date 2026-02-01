@@ -8,7 +8,9 @@ sealed class NotificationState extends Equatable {
   List<Object> get props => [notifications];
 }
 
-final class NotificationInitial extends NotificationState {}
+final class NotificationInitial extends NotificationState {
+  const NotificationInitial([super.notifications = const []]);
+}
 
 final class NotificationLoading extends NotificationState {
   const NotificationLoading([super.notifications]);
@@ -24,6 +26,10 @@ final class NotificationScheduledSuccess extends NotificationState {
 
 final class NotificationCancelledSuccess extends NotificationState {
   const NotificationCancelledSuccess([super.notifications]);
+}
+
+final class NotificationShowDialogSuccess extends NotificationState {
+  const NotificationShowDialogSuccess(super.notifications);
 }
 
 final class NotificationError extends NotificationState {
