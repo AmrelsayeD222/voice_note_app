@@ -54,9 +54,10 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       },
       builder: (context, state) {
         return AppBar(
-          title: const Text('Voice Notes'),
-          actions: [
-            Stack(
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Stack(
+              alignment: Alignment.center,
               children: [
                 IconButton(
                   onPressed: () {
@@ -64,37 +65,56 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                         .read<NotificationCubit>()
                         .viewPendingNotifications();
                   },
-                  icon: const Icon(Icons.notifications_outlined),
+                  icon: const Icon(
+                    Icons.notifications_none_rounded,
+                    size: 28,
+                    color: Colors.indigo,
+                  ),
                 ),
                 if (state.notifications.isNotEmpty)
                   Positioned(
-                    top: 8,
-                    right: 8,
+                    top: 12,
+                    right: 12,
                     child: Container(
-                      padding: const EdgeInsets.all(2),
+                      padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.redAccent,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 2),
                       ),
                       constraints: const BoxConstraints(
-                        minWidth: 16,
-                        minHeight: 16,
-                      ),
-                      child: Text(
-                        state.notifications.length.toString(),
-                        textAlign: TextAlign.center,
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 10),
+                        minWidth: 10,
+                        minHeight: 10,
                       ),
                     ),
                   ),
               ],
             ),
-            IconButton(
-              onPressed: () {
-                context.read<NotificationCubit>().cancelAllNotifications();
-              },
-              icon: const Icon(Icons.notifications_off_outlined),
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          centerTitle: true,
+          title: const Text(
+            'Voice Notes',
+            style: TextStyle(
+              color: Colors.indigo,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: IconButton(
+                onPressed: () {
+                  context.read<NotificationCubit>().cancelAllNotifications();
+                },
+                icon: const Icon(
+                  Icons.notifications_off_outlined,
+                  size: 28,
+                  color: Colors.indigo,
+                ),
+              ),
             ),
           ],
         );

@@ -14,7 +14,7 @@ class NotificationService {
 
   // تهيئة
   Future<void> init() async {
-    const android = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const android = AndroidInitializationSettings('splash');
     const iOS = DarwinInitializationSettings(
       requestAlertPermission: true,
       requestBadgePermission: true,
