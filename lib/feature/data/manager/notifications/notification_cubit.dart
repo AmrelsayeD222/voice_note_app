@@ -1,16 +1,17 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:voice_note_app/core/helper/data_base_service.dart';
-import 'package:voice_note_app/core/helper/notification_service.dart';
+import 'package:voice_note_app/feature/data/repos/task_repository.dart';
+import 'package:voice_note_app/feature/data/repos/notification_repository.dart';
 import 'package:voice_note_app/feature/data/model/datamodel.dart';
 
 part 'notification_state.dart';
 
 class NotificationCubit extends Cubit<NotificationState> {
-  final DatabaseService databaseHelper;
-  final NotificationService _notificationService = NotificationService();
+  final TaskRepository taskRepository;
+  final NotificationRepository _notificationService;
 
-  NotificationCubit(this.databaseHelper) : super(const NotificationInitial());
+  NotificationCubit(this.taskRepository, this._notificationService)
+      : super(const NotificationInitial());
 
   Future<void> fetchPendingNotifications() async {
     emit(NotificationLoading(state.notifications));
@@ -66,7 +67,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   Future<void> makeNotification(Datamodel datamodel) async {
     emit(NotificationLoading(state.notifications));
     try {
-      await databaseHelper.editTask(datamodel);
+      await taskRepository.editTask(datamodel);
       await manageTaskNotification(datamodel);
 
       final pending = await _notificationService.getPendingNotifications();

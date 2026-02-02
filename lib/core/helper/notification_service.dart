@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
+import '../../feature/data/repos/notification_repository.dart';
 
-class NotificationService {
+class NotificationService implements NotificationRepository {
   // نسخة واحدة (Singleton Pattern)
   static final NotificationService _instance = NotificationService._internal();
   factory NotificationService() => _instance;
@@ -13,6 +14,7 @@ class NotificationService {
       FlutterLocalNotificationsPlugin();
 
   // تهيئة
+  @override
   Future<void> init() async {
     const android = AndroidInitializationSettings('splash');
     const iOS = DarwinInitializationSettings(
@@ -59,6 +61,7 @@ class NotificationService {
   }
 
   // إشعار يومي
+  @override
   Future<void> scheduleDailyAt(int hour, int minute) async {
     await _plugin.zonedSchedule(
       id: 3,
@@ -99,6 +102,7 @@ class NotificationService {
   }
 
   // ✅ إشعار بتاريخ ووقت محددين (محسّن)
+  @override
   Future<void> scheduleAtDateTime(
       DateTime scheduledDateTime, int id, String title) async {
     const androidDetails = AndroidNotificationDetails(
@@ -128,12 +132,14 @@ class NotificationService {
   }
 
   // الحصول على الإشعارات المعلقة
+  @override
   Future<List<String>> getPendingNotifications() async {
     final pending = await _plugin.pendingNotificationRequests();
     return pending.map((n) => '${n.id}: ${n.title}').toList();
   }
 
   // إلغاء إشعار معين
+  @override
   Future<void> cancel(int id) async {
     await _plugin.cancel(
       id: id,
@@ -141,6 +147,7 @@ class NotificationService {
   }
 
   // إلغاء الكل
+  @override
   Future<void> cancelAll() async {
     await _plugin.cancelAll();
   }

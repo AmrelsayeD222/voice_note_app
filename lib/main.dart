@@ -12,6 +12,7 @@ import 'package:voice_note_app/feature/data/manager/fatch_data/fetch_data_cubit.
 import 'package:voice_note_app/feature/data/manager/voice_record/voice_record_cubit.dart';
 import 'package:voice_note_app/feature/data/manager/audio_player/audio_player_cubit.dart';
 import 'package:voice_note_app/feature/data/manager/notifications/notification_cubit.dart';
+import 'package:voice_note_app/feature/data/repos/task_repository_impl.dart';
 
 import 'feature/ui/views/home_view.dart';
 import 'core/theme/app_theme.dart';
@@ -30,26 +31,30 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final taskRepository = TaskRepositoryImpl(DatabaseService());
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) =>
-              NotificationCubit(DatabaseService())..fetchPendingNotifications(),
+          create: (context) => NotificationCubit(
+            taskRepository,
+            NotificationService(),
+          )..fetchPendingNotifications(),
         ),
         BlocProvider(
           create: (context) => FetchDataCubit(
-            DatabaseService(),
+            taskRepository,
           )..fetchData(),
         ),
         BlocProvider(
-          create: (context) => AddTaskCubit(DatabaseService()),
+          create: (context) => AddTaskCubit(taskRepository),
         ),
         BlocProvider(
-          create: (context) => EditTaskCubit(DatabaseService()),
+          create: (context) => EditTaskCubit(taskRepository),
         ),
         BlocProvider(
           create: (context) => DeleteTaskCubit(
-            DatabaseService(),
+            taskRepository,
             context.read<NotificationCubit>(),
           ),
         ),

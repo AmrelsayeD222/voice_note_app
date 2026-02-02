@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:voice_note_app/core/helper/data_base_service.dart';
+import 'package:voice_note_app/feature/data/repos/task_repository.dart';
 import 'package:voice_note_app/feature/data/model/datamodel.dart';
 
 part 'add_task_state.dart';
@@ -11,13 +11,13 @@ class AddTaskCubit extends Cubit<AddTaskState> {
   TextEditingController descriptionController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-  final DatabaseService databaseHelper;
-  AddTaskCubit(this.databaseHelper) : super(AddTaskInitial());
+  final TaskRepository taskRepository;
+  AddTaskCubit(this.taskRepository) : super(AddTaskInitial());
 
   Future<void> addTask(Datamodel datamodel) async {
     emit(AddTaskInitial());
     try {
-      await databaseHelper.addTask(datamodel);
+      await taskRepository.addTask(datamodel);
       emit(AddTaskSuccess());
       titleController.clear();
       descriptionController.clear();
