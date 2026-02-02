@@ -110,19 +110,95 @@ class VoiceRecordBottomSheet extends StatelessWidget {
   }
 
   Widget _buildStatus(VoiceRecordState state) {
+    // 1. Initial values for the 'Ready' state
+    String text = 'Ready to record';
+    Color color = Colors.grey;
+    IconData icon = Icons.mic;
+    bool isRecording = false;
+
+    // 2. Change values based on current state (Easy to read if-else)
     if (state is VoiceRecordLoading) {
-      return const Text('Recording...');
+      text = 'Recording...';
+      color = Colors.red;
+      isRecording = true;
     } else if (state is VoiceRecordSuccess) {
-      return const Text('Recorded successfully ✅');
+      text = 'Recorded successfully!';
+      color = Colors.green;
+      icon = Icons.check_circle;
     } else if (state is VoiceRecordPaused) {
-      return const Text('Recording paused');
+      text = 'Recording paused';
+      color = Colors.orange;
+      icon = Icons.pause_circle_filled;
     } else if (state is VoiceRecordFailure) {
-      return Text(
-        state.message,
-        style: const TextStyle(color: Colors.red),
-      );
-    } else {
-      return const Text('Ready to record');
+      text = state.message;
+      color = Colors.red;
+      icon = Icons.error;
     }
+
+    // 3. Simple UI using Container and Row
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: color.withValues(alpha: 0.2)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (isRecording)
+            const _SimplePulseDot()
+          else
+            Icon(icon, color: color, size: 20),
+          const SizedBox(width: 8),
+          Text(
+            text,
+            style: TextStyle(color: color, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// Simple stateful widget for the pulsing red dot
+class _SimplePulseDot extends StatefulWidget {
+  const _SimplePulseDot();
+  @override
+  State<_SimplePulseDot> createState() => _SimplePulseDotState();
+}
+
+class _SimplePulseDotState extends State<_SimplePulseDot>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    )..repeat(reverse: true); // repeat the animation forever
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _controller,
+      child: Container(
+        width: 8,
+        height: 8,
+        decoration: const BoxDecoration(
+          color: Colors.red,
+          shape: BoxShape.circle,
+        ),
+      ),
+    );
   }
 }
