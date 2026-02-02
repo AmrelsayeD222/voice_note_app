@@ -23,7 +23,8 @@ class HomeListeners extends StatelessWidget {
                     Datamodel(
                       title: 'Voice Note',
                       description:
-                          'Recorded at ${state.createdAt.hour}:${state.createdAt.minute}',
+                          'Recorded at ${state.createdAt.hour}:${state.createdAt.minute} \n'
+                          '${state.createdAt.day}/${state.createdAt.month}/${state.createdAt.year}',
                       audioPath: state.path,
                     ),
                   );

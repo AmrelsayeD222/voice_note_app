@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/widgets.dart';
 import 'package:voice_note_app/core/helper/data_base_service.dart';
 import 'package:voice_note_app/core/helper/notification_service.dart';
 import 'package:voice_note_app/feature/data/model/datamodel.dart';
@@ -56,7 +55,6 @@ class NotificationCubit extends Cubit<NotificationState> {
               scheduledDate, task.id!, displayTitle);
         }
       } catch (e) {
-        debugPrint('Error scheduling notification: $e');
         emit(NotificationError(
             'Error scheduling notification: $e', state.notifications));
       }
